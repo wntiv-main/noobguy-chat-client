@@ -36,6 +36,14 @@
 	overflow-x: auto;
 	padding: 8px;
 	border-radius: 8px;
+	scrollbar-color: currentColor transparent;
+	scrollbar-gutter: stable;
+	padding-bottom: 2px;
+}
+
+#OPAL-theme-tooltip .OPAL-grid::-webkit-scrollbar {
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
 }
 
 #OPAL-theme-tooltip .OPAL-grid .OPAL-settings-button {
@@ -101,10 +109,19 @@
 
 input[type="color"].OPAL-settings-button {
 	padding: 0;
+	overflow: hidden;
+}
+
+input[type="color"].OPAL-settings-button::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+
+input[type="color"].OPAL-settings-button::-webkit-color-swatch {
+	border: none;
 }
 
 .OPAL-theme-button {
-	border-radius: 5px;
+	border-radius: 10px;
 }
 
 #OPAL-random-theme-button {

@@ -14,6 +14,16 @@
 	display: none !important;
 }
 
+.message>p {
+	overflow-wrap: break-word;
+	overflow: hidden;
+}
+
+.message img {
+	min-width: 100px;
+	max-width: 30vw;
+}
+
 .OPAL-code {
 	background: #80808040;
 	border-radius: 0.5em;
