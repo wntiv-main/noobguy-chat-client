@@ -1,0 +1,126 @@
+.OPAL-tooltip {
+	--OPAL-tooltip-background: #e0e0e0;
+	padding: 5px;
+	margin: 5px;
+	position: absolute;
+	transform: translateY(-100%);
+	top: -10px;
+	border: 1px solid #777;
+	border-radius: 12px;
+	z-index: 1;
+	overflow: visible;
+	display: none;
+}
+
+.OPAL-dark-style .OPAL-tooltip {
+	--OPAL-tooltip-background: #202020;
+}
+
+.OPAL-tooltip.OPAL-active {
+	display: block;
+}
+
+#OPAL-theme-tooltip {
+	padding: 0;
+	background: var(--OPAL-tooltip-background);
+}
+
+#OPAL-theme-tooltip .OPAL-grid {
+	--OPAL-theme-scroll: 0px;
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-columns: repeat(auto-fit, calc(1em + 18px));
+	grid-template-rows: repeat(4, 1fr);
+	grid-gap: 10px 10px;
+	max-width: 50vw;
+	overflow-x: auto;
+	padding: 8px;
+	border-radius: 8px;
+}
+
+#OPAL-theme-tooltip .OPAL-grid .OPAL-settings-button {
+	margin: 0;
+}
+
+.OPAL-tooltip::after {
+	content: "";
+	width: 12px;
+	height: 12px;
+	position: absolute;
+	background: var(--OPAL-tooltip-background);
+	bottom: -7px;
+	transform: rotate(45deg);
+	border-bottom: 1px solid #777;
+	border-right: 1px solid #777;
+	z-index: -1;
+}
+
+#OPAL-theme-tooltip::after {
+	right: 12px;
+}
+
+.OPAL-theme-tooltip {
+	--OPAL-tooltip-shift: 0px;
+	background-color: var(--OPAL-tooltip-background);
+	background-size: cover;
+	background-position: center;
+	min-width: 200px;
+	width: 30vw;
+	max-height: 30vh;
+	aspect-ratio: 16/9;
+	transform: translate(calc(-50% + var(--OPAL-tooltip-shift) - var(--OPAL-theme-scroll)), calc(-100% - 32px));
+	top: unset;
+}
+
+.OPAL-theme-tooltip::after {
+	background: linear-gradient(315deg, var(--OPAL-tooltip-background) 50%, transparent 50%);
+	transform: translateX(calc(-2px - var(--OPAL-tooltip-shift))) rotate(45deg);
+}
+
+#OPAL-settings-container {
+	display: flex;
+	flex-direction: row-reverse;
+	position: relative;
+}
+
+.OPAL-settings-button {
+	font-size: 1em;
+	text-align: center;
+	line-height: 1em;
+	padding: 8px;
+	min-width: 1em;
+	min-height: 1em;
+	width: auto;
+	height: auto;
+	aspect-ratio: 1;
+	border: none;
+	box-sizing: content-box;
+	background-position: center;
+	background-size: cover;
+}
+
+input[type="color"].OPAL-settings-button {
+	padding: 0;
+}
+
+.OPAL-theme-button {
+	border-radius: 5px;
+}
+
+#OPAL-random-theme-button {
+	padding: 9px 10px 7px 6px;
+}
+
+#OPAL-custom-theme-label::after {
+	content: "";
+	display: block;
+	background: url("https://cdn-icons-png.flaticon.com/512/4211/4211763.png");
+	background-size: cover;
+	margin: -3px;
+	width: calc(100% + 6px);
+	height: calc(100% + 6px);
+}
+
+.OPAL-dark-style #OPAL-custom-theme-label::after {
+	filter: invert(1);
+}

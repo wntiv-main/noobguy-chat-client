@@ -1,0 +1,37 @@
+.OPAL_message_sending>p {
+	opacity: 0.5;
+}
+
+.OPAL_message_error>p {
+	color: #ff2525;
+}
+
+.OPAL_message_error img {
+	filter: contrast(0.6) sepia(100%) brightness(45%) hue-rotate(-45deg) saturate(500%);
+}
+
+.message:has(.OPAL_client_tag) {
+	display: none !important;
+}
+
+.OPAL-code {
+	background: #80808040;
+	border-radius: 0.5em;
+}
+
+.OPAL-small-code {
+	padding: 0.3em;
+}
+
+.OPAL-large-code {
+	padding: 0.5em 1em;
+	margin: 0;
+}
+
+.OPAL-blockquote {
+	margin: 0;
+	padding: 8px;
+	background: #80808030;
+	border-radius: 8px;
+	border-left: 8px solid #202020;
+}

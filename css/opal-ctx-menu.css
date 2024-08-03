@@ -1,0 +1,40 @@
+.OPAL-context-menu {
+	position: fixed;
+	background: #80808030;
+	overflow-y: auto;
+	max-height: calc(100vh - 10px);
+	margin: 0;
+	padding: 0;
+	border-radius: 16px;
+	min-width: 250px;
+	max-width: 400px;
+	backdrop-filter: blur(10px);
+	border: 1px solid currentColor;
+}
+
+.OPAL-context-menu>li {
+	padding: 5px 16px;
+	text-wrap: nowrap;
+	text-overflow: ellipsis;
+	user-select: none;
+}
+
+.OPAL-context-menu>li:hover {
+	background: #80808030;
+}
+
+.OPAL-context-menu>li:active {
+	background: #80808050;
+}
+
+.OPAL-context-menu>li:first-of-type {
+	padding-top: 16px;
+}
+
+.OPAL-context-menu>li:last-of-type {
+	padding-bottom: 16px;
+}
+
+.OPAL-important-action {
+	color: red;
+}

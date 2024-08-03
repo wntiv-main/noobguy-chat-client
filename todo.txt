@@ -1,0 +1,65 @@
+
+- single message delete??? (delete all and restore) (or script)
+
+#13
+2024-08-01 10:36:43
+- ping server for updates
+
+#14
+2024-08-01 10:37:12
+- perform hydration from server responses to avoid reload (DOMParser)
+
+#15
+2024-08-01 10:37:50
+- min-width on #ids
+
+#16
+2024-08-01 10:38:57
+- icons over text buttons
+
+#17
+2024-08-01 10:40:10
+- rooms auto update opal client version (is this possible without using bootloader on each page load???)
+
+#18
+2024-08-01 10:40:52
+editing messages (convert to msg with script which updates  old message)
+
+#19
+2024-08-01 10:41:16
+- ping sound
+
+#20
+2024-08-01 10:41:51
+- replies
+
+#21
+2024-08-01 10:42:59
+- artificially require usernames??? (power move fr)
+
+#22
+2024-08-01 10:45:25
+- custom gradient background editor???
+
+#23
+2024-08-01 10:47:30
+- proxy id handling to hide opal client hidden messages
+
+#24
+2024-08-01 10:49:46
+- file uploads (audio/video)
+
+#25
+2024-08-01 10:50:22
+- shared streaming  music  (synced) i.e. "listen together"
+
+#26
+2024-08-01 10:51:12
+- member list (off/onliine, idle) using domevents
+
+#27
+2024-08-01 10:53:27
+- switch to webrtc or smth and completely deprecate the php html messaging backend shit
+
+
+distributed message hosting/history??? (webrtc)
