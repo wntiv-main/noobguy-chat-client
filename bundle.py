@@ -45,7 +45,6 @@ NOT_IN_STR = r"(?=[^\"'`\n]*+(?:(?:\"(?:[^\"\n]|\\\")*+\"|'(?:[^'\n]|\\')*+'|`(?
 def hexLiteral(match: re.Match):
     num = match.group(1)
     hx = hex(int(num))
-    print(f"{num} vs {hx}")
     return hx if len(hx) <= len(num) else num
 
 
@@ -184,7 +183,6 @@ arg_binding_names, arg_binding_values = [], []
 str_binding_names, str_binding_values = [], []
 for name, freq in sorted(frequency.items(), key=lambda x: x[1], reverse=True):
     binding = get_name()
-    print(f"binding {name} to {binding}")
     if name in arg_bindings:
         extra_cost[name] = extra_cost.get(
             name, 0) + len(name) + len(binding) + 2

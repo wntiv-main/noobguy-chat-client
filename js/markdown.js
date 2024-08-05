@@ -57,10 +57,10 @@ const markdown_replacements = [
 ];
 function markdown(msg) {
 	/* Special case: block quote */
-	let final_msg = msg.replace(regex`(?:(?:^|(?<=<\s*br\s*\/?\s*>))(?:>|&gt;)\s.*?(?:$|(?=<\s*br\s*\/?\s*>))(?:\s*<\s*br\s*\/?\s*>)?\s*)+`.rx("gim"), match => {
+	let final_msg = msg.replace(regex`(?:^|(?<=<\s*br\s*\/?\s*>))(?:(?:>|&gt;)\s.*?(?:\n|<\s*br\s*\/?\s*>\s*)\s*)*(?:>|&gt;)\s.*?(?:$|(?=<\s*br\s*\/?\s*>))`.rx("gim"), match => {
 		const el = document.createElement("blockquote");
 		el.classList.add("OPAL-blockquote");
-		el.innerHTML = match.replace(/(?:^|(?<=<\s*br\s*\/?\s*>))(?:>|&gt;)\s/gim, "");
+		el.innerHTML = match.replace(/(?:^|(?<=<\s*br\s*\/?\s*>\s*))(?:>|&gt;)\s/gim, "");
 		return el.outerHTML;
 	});
 	for(const r of markdown_replacements) {

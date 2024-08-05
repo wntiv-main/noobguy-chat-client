@@ -64,4 +64,4 @@ editing messages (convert to msg with script which updates  old message)
 - switch to webrtc or smth and completely deprecate the php html messaging backend shit
 
 
-distributed message hosting/history??? (webrtc)
+- distributed message hosting/history??? (webrtc)
