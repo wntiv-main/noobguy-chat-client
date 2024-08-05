@@ -41,11 +41,6 @@
 	padding-bottom: 2px;
 }
 
-#OPAL-theme-tooltip .OPAL-grid::-webkit-scrollbar {
-	border-bottom-left-radius: 8px;
-	border-bottom-right-radius: 8px;
-}
-
 #OPAL-theme-tooltip .OPAL-grid .OPAL-settings-button {
 	margin: 0;
 }
@@ -126,6 +121,7 @@ input[type="color"].OPAL-settings-button::-webkit-color-swatch {
 
 #OPAL-random-theme-button {
 	padding: 9px 10px 7px 6px;
+	background-color: transparent;
 }
 
 #OPAL-custom-theme-label::after {

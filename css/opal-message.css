@@ -1,12 +1,12 @@
-.OPAL_message_sending>p {
+.OPAL-message-sending>.OPAL-message-content {
 	opacity: 0.5;
 }
 
-.OPAL_message_error>p {
+.OPAL-message-error>.OPAL-message-content {
 	color: #ff2525;
 }
 
-.OPAL_message_error img {
+.OPAL-message-error img {
 	filter: contrast(0.6) sepia(100%) brightness(45%) hue-rotate(-45deg) saturate(500%);
 }
 
@@ -15,6 +15,10 @@
 }
 
 .message>p {
+	display: none;
+}
+
+.OPAL-message-content {
 	overflow-wrap: break-word;
 	overflow: hidden;
 }

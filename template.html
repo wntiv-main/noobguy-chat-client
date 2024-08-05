@@ -1,13 +1,12 @@
 <script>
-	(() => {
+	((/* {binding_names} */) => {
 		if(window._GLOBAL_OPAL_CLIENT_LOADED) return;
 		window._GLOBAL_OPAL_CLIENT_LOADED = true;
-		window.OPAL_CLIENT = {};
 		/* {init_js} */
 		window.addEventListener("load", () => {
 			/* {load_js} */
 		});
-	})();
+	})(/* {binding_values} */);
 </script>
 
 <style>
@@ -16,3 +15,5 @@
 <span class="OPAL_client_tag" style="font-style: italic;font-weight: bold;font-size: 1.2rem;">
 	Loaded opals client
 </span>
+<!-- sandbox following messages for pre-message-hook -->
+<!-- <template id="OPAL_prelim_messages"></template> -->

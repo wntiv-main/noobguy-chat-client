@@ -7,7 +7,7 @@ window.addEventListener("click", e => {
 	}
 });
 
-window.OPAL_CLIENT.showContextMenu = (e, items) => {
+function showContextMenu(e, items) {
 	e.preventDefault();
 	for(const el of document.getElementsByClassName("OPAL-context-menu")) {
 		el.remove();
@@ -21,7 +21,7 @@ window.OPAL_CLIENT.showContextMenu = (e, items) => {
 		itemEl.textContent = item.label;
 		itemEl.title = item.label;
 		if(item.classes) itemEl.classList.add(...item.classes);
-		itemEl.addEventListener("click", (e) => {
+		itemEl.addEventListener("click", e => {
 			e.stopPropagation();
 			item.action(e);
 			e.currentTarget.parentElement.remove();

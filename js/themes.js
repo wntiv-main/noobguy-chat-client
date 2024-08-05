@@ -36,7 +36,7 @@ function isLight(color) {
 
 function setThemeFromImage(hash) {
 	localStorage.theme = `custom-background-${hash}`;
-	window.OPAL_CLIENT.db.getFile(Number.parseInt(hash), blob => {
+	db.getFile(Number.parseInt(hash), blob => {
 		if(themeUrl) URL.revokeObjectURL(themeUrl);
 		themeUrl = URL.createObjectURL(blob);
 		document.body.style.background = `url("${themeUrl}")`;
@@ -93,14 +93,14 @@ function addThemeTooltip(el, open, close) {
 	return tooltip;
 }
 
-function addThemeButton(hash, icon, handleScroll) {
+function addThemeButton(hash, icon) {
 	const iconUrl = URL.createObjectURL(icon);
 	const button = document.createElement("button");
 	button.classList.add("OPAL-settings-button");
 	button.classList.add("OPAL-theme-button");
 	button.classList.add("OPAL-theme-button-removable");
 	addThemeTooltip(button, t => {
-		window.OPAL_CLIENT.db.getFile(hash, file => {
+		db.getFile(hash, file => {
 			if(hoveredUrl) URL.revokeObjectURL(hoveredUrl);
 			hoveredUrl = URL.createObjectURL(file);
 			t.style.backgroundImage = `url("${hoveredUrl}")`;
@@ -110,12 +110,12 @@ function addThemeButton(hash, icon, handleScroll) {
 	});
 	button.style.backgroundImage = `url("${iconUrl}")`;
 	button.addEventListener("contextmenu", e => {
-		window.OPAL_CLIENT.showContextMenu(e, [
+		showContextMenu(e, [
 			{
 				label: "Remove",
 				classes: ["OPAL-important-action"],
 				action() {
-					window.OPAL_CLIENT.db.removeFile(hash);
+					db.removeFile(hash);
 					URL.revokeObjectURL(iconUrl);
 					e.currentTarget.remove();
 				}
@@ -137,7 +137,7 @@ if("theme" in localStorage) {
 }
 
 function onload() {
-	const inputContainer = document.querySelector(".input-container") ?? document.querySelector(".message:has(form)");
+	const inputContainer = document.querySelector(".OPAL-input-container") ?? document.querySelector(".message:has(form)");
 	const themeSelector = document.createElement("button");
 	themeSelector.textContent = String.fromCodePoint(0x1F3A8);
 	themeSelector.classList.add("OPAL-settings-button");
@@ -146,7 +146,7 @@ function onload() {
 	themeSelectorTooltipContainer.classList.add("OPAL-tooltip");
 	const themeSelectorTooltip = document.createElement("div");
 	themeSelectorTooltip.classList.add("OPAL-grid");
-	function scroll(e) {
+	themeSelectorTooltip.addEventListener("wheel", e => {
 		e.stopPropagation();
 		const target = themeSelectorTooltip;
 		if(!e.deltaX && Math.abs(e.deltaY) > 0) {
@@ -164,13 +164,12 @@ function onload() {
 				default:
 					pageMultiplier = 0;
 			}
-			target.scrollBy.bind(target)({
+			target.scrollBy({
 				left: e.deltaY * pageMultiplier,
 				behavior: "smooth"
 			});
 		}
-	}
-	themeSelectorTooltip.addEventListener("wheel", scroll, { passive: true });
+	}, { passive: true });
 	themeSelectorTooltip.addEventListener("scroll", e => {
 		e.currentTarget.style.setProperty("--OPAL-theme-scroll", `${e.currentTarget.scrollLeft}px`);
 		const tooltip = e.currentTarget.querySelector(":scope .OPAL-theme-tooltip.OPAL-active");
@@ -220,7 +219,7 @@ function onload() {
 				}
 				iconContext.drawImage(e.currentTarget, hPad, vPad, img.naturalWidth - 2 * hPad, img.naturalHeight - 2 * vPad, 0, 0, 32, 32);
 				iconCanvas.convertToBlob().then(icon => {
-					window.OPAL_CLIENT.db.addFile(blob, icon, hash => {
+					db.addFile(blob, icon, hash => {
 						const result = callback(hash, icon);
 						if(result) {
 							addImage(result, callback);
@@ -233,12 +232,12 @@ function onload() {
 		}
 		if(files.length > 1) {
 			addImage(files.shift(), (hash, icon) => {
-				addThemeButton(hash, icon, scroll);
+				addThemeButton(hash, icon);
 				return files.shift();
 			});
 		} else {
 			addImage(files.shift(), (hash, icon) => {
-				addThemeButton(hash, icon, scroll);
+				addThemeButton(hash, icon);
 				setThemeFromImage(hash);
 			});
 		}
@@ -275,8 +274,8 @@ function onload() {
 
 	themeSelectorTooltip.appendChild(colorThemeButton);
 
-	window.OPAL_CLIENT.db.forAllFiles(file => {
-		addThemeButton(file.hash, file.icon, scroll);
+	db.forAllFiles(file => {
+		addThemeButton(file.hash, file.icon);
 	});
 
 	const settingsContainer = document.createElement("div");

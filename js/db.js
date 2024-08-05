@@ -1,5 +1,6 @@
 const DB_NAME = "opal-chat-db";
 const DB_VERSION = 1;
+const FILE_TABLE_NAME = "files";
 
 let dbUnsafe = 0;
 let database = null;
@@ -62,8 +63,8 @@ function getDb(callback) {
 			e.currentTarget.close();
 			alert("A new version of this page is ready. Please reload or close this tab!");
 		};
-		if(!db.objectStoreNames.contains("files")) {
-			db.createObjectStore("files", { keyPath: "hash" });
+		if(!db.objectStoreNames.contains(FILE_TABLE_NAME)) {
+			db.createObjectStore(FILE_TABLE_NAME, { keyPath: "hash" });
 		}
 		/* if(db.version < 2) {
 			this._dbUnsafe++;
@@ -73,7 +74,7 @@ function getDb(callback) {
 	};
 	request.onsuccess = e => {
 		database = e.currentTarget.result;
-		if(!database.objectStoreNames.contains("files")) {
+		if(!database.objectStoreNames.contains(FILE_TABLE_NAME)) {
 			dbUnsafe++;
 			const req = indexedDB.deleteDatabase(DB_NAME);
 			req.onsuccess = () => {
@@ -90,46 +91,46 @@ function getDb(callback) {
 	};
 }
 
-window.OPAL_CLIENT.db = {
+const db = {
 	addFile(blob, icon, callback) {
-		getDb((db) => {
-			computeHash(blob).then((hash) => {
-				const transaction = db.transaction(["files"], "readwrite");
-				const fileStore = transaction.objectStore("files");
+		getDb(db => {
+			computeHash(blob).then(hash => {
+				const transaction = db.transaction([FILE_TABLE_NAME], "readwrite");
+				const fileStore = transaction.objectStore(FILE_TABLE_NAME);
 				const request = fileStore.put({
 					hash: hash,
 					icon: icon,
 					blob: blob,
 				});
-				request.onsuccess = (e) => {
+				request.onsuccess = e => {
 					callback(hash);
 				};
 			});
 		});
 	},
 	getFile(key, callback) {
-		getDb((db) => {
+		getDb(db => {
 			db
-				.transaction(["files"], "readonly")
-				.objectStore("files")
-				.get(key).onsuccess = (e) => {
+				.transaction([FILE_TABLE_NAME], "readonly")
+				.objectStore(FILE_TABLE_NAME)
+				.get(key).onsuccess = e => {
 					callback(e.currentTarget.result.blob);
 				};
 		});
 	},
 	removeFile(hash) {
-		getDb((db) => {
-			db.transaction(["files"], "readwrite")
-				.objectStore("files")
+		getDb(db => {
+			db.transaction([FILE_TABLE_NAME], "readwrite")
+				.objectStore(FILE_TABLE_NAME)
 				.delete(hash);
 		});
 	},
 	forAllFiles(callback) {
-		getDb((db) => {
+		getDb(db => {
 			db
-				.transaction(["files"], "readonly")
-				.objectStore("files")
-				.openCursor().onsuccess = (e) => {
+				.transaction([FILE_TABLE_NAME], "readonly")
+				.objectStore(FILE_TABLE_NAME)
+				.openCursor().onsuccess = e => {
 					const cursor = e.currentTarget.result;
 					if(cursor) {
 						if(!cursor.value.icon) {

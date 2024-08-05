@@ -8,6 +8,7 @@
 	border-radius: 16px;
 	min-width: 250px;
 	max-width: 400px;
+	-webkit-backdrop-filter: blur(10px);
 	backdrop-filter: blur(10px);
 	border: 1px solid currentColor;
 }
@@ -16,23 +17,24 @@
 	padding: 5px 16px;
 	text-wrap: nowrap;
 	text-overflow: ellipsis;
+	-webkit-user-select: none;
 	user-select: none;
-}
 
-.OPAL-context-menu>li:hover {
-	background: #80808030;
-}
+	&:hover {
+		background-color: #80808030;
+	}
 
-.OPAL-context-menu>li:active {
-	background: #80808050;
-}
+	&:active {
+		background-color: #80808050;
+	}
 
-.OPAL-context-menu>li:first-of-type {
-	padding-top: 16px;
-}
+	&:first-of-type {
+		padding-top: 16px;
+	}
 
-.OPAL-context-menu>li:last-of-type {
-	padding-bottom: 16px;
+	&:last-of-type {
+		padding-bottom: 16px;
+	}
 }
 
 .OPAL-important-action {

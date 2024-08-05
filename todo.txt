@@ -1,3 +1,5 @@
+- bbundler: sort names by occurances
+
 
 - single message delete??? (delete all and restore) (or script)
 
