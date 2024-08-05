@@ -10,8 +10,14 @@
 	filter: contrast(0.6) sepia(100%) brightness(45%) hue-rotate(-45deg) saturate(500%);
 }
 
-.message:has(.OPAL_client_tag) {
+.message:has(#OPAL-client-tag) {
 	display: none !important;
+}
+
+#OPAL-client-tag {
+	font-style: italic;
+	font-weight: bold;
+	font-size: 1.2rem;
 }
 
 .message>p {
