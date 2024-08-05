@@ -41,6 +41,18 @@ load_js = re.sub(r"\(\s*\)(\s*=>)", r"_\1", load_js)
 
 NOT_IN_STR = r"(?=[^\"'`\n]*+(?:(?:\"(?:[^\"\n]|\\\")*+\"|'(?:[^'\n]|\\')*+'|`(?:[^$`\n]|\\`|\$(?:\{[^}\n]*})?+)*+`)[^\"'`\n]*+)*?$)"
 
+
+def hexLiteral(match: re.Match):
+    num = match.group(1)
+    hx = hex(int(num))
+    print(f"{num} vs {hx}")
+    return hx if len(hx) <= len(num) else num
+
+
+INT_LITERAL = re.compile(r"(?<![.])\b([1-9]\d{3,})" + NOT_IN_STR, re.M)
+init_js = INT_LITERAL.sub(hexLiteral, init_js, re.M)
+load_js = INT_LITERAL.sub(hexLiteral, load_js, re.M)
+
 arg_bindings: set[str] = set()
 str_bindings: set[str] = set()
 frequency: dict[str, int] = {}
@@ -126,7 +138,9 @@ for name in set(re.findall(r"\b(\w+)\b" + NOT_IN_STR, init_js + load_js, re.M)):
 for string in set(re.findall(r"\"[^,\"\n]*\"" + NOT_IN_STR, init_js + load_js, re.M)):
     assert isinstance(string, str)
     rx = re.compile(
-        r"\"" + re.escape(string) + r"\"" + NOT_IN_STR, re.M)
+        re.escape(string) + NOT_IN_STR
+        + r"|" + re.escape(string) +
+        r"(?=[^{}`\n]*}(?:[^`$\n]|\\`|\$(?:\{[^}\n]*})?+)*+`[^\"'`\n]*+(?:(?:\"(?:[^\"\n]|\\\")*+\"|'(?:[^'\n]|\\')*+'|`(?:[^`$\n]|\\`|\$(?:\{[^}\n]*})?+)*+`)[^\"'`\n]*+)*?$)", re.M)
     # binding = get_name()
     # if (len(rx.findall(init_js + load_js)) * (2 + len(string) - len(binding))
     #         < len(binding) + len(string) + 4):
@@ -178,7 +192,7 @@ for name, freq in sorted(frequency.items(), key=lambda x: x[1], reverse=True):
         idx -= 1
         continue
     if name in arg_bindings:
-        if match := re.match(r'"(\w+)"', name):
+        if match := re.match(r'"(.*)"', name):
             str_binding_names.append(binding)
             str_binding_values.append(match.group(1))
         else:

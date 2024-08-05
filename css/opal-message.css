@@ -29,9 +29,10 @@
 	overflow: hidden;
 }
 
-.message img {
+:is(.message, #OPAL-message-textarea) img {
 	min-width: 100px;
 	max-width: 30vw;
+	display: block;
 }
 
 .OPAL-code {
