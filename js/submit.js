@@ -58,9 +58,8 @@ function onload() {
 			return Promise.reject(resp);
 		}).then(resp => {
 			resp.text().then(body => {
-				handleHydratedResponse(body, resp.headers.get("content-type").split(";")[0]);
+				handleHydratedResponse(body, resp.headers.get("content-type").split(";")[0], [msg]);
 			});
-			msg.classList.remove("OPAL-message-sending");
 		}).catch(err => {
 			msg.classList.remove("OPAL-message-sending");
 			msg.classList.add("OPAL-message-error");
@@ -79,10 +78,10 @@ function onload() {
 			return Promise.reject(resp);
 		}).then(resp => {
 			// TODO: replace with hydrate here???
-			// resp.text().then(body => {
-			// 	handleHydratedResponse(body, resp.headers.get("content-type").split(";")[0]);
-			// });
-			board.replaceChildren(OPAL_CLIENT_SCRIPT_ELEMENT.parentElement.parentElement);
+			resp.text().then(body => {
+				handleHydratedResponse(body, resp.headers.get("content-type").split(";")[0], []);
+			});
+			// board.replaceChildren(OPAL_CLIENT_SCRIPT_ELEMENT.parentElement.parentElement);
 			autoID = 1;
 			const request = new FormData(messageForm);
 			request.set(inputField.getAttribute("name"), escapeMessage(OPAL_CLIENT_SCRIPT_ELEMENT.parentElement.innerHTML));

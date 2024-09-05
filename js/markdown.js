@@ -10,47 +10,47 @@ const regex = (...args) => {
 	};
 };
 const unescaped = regex`(?<!(?:^|[^\\])\\(?:\\\\)*)`;
-
+const outOfBracket = regex`(?![^<]*>)`;
 const markdown_replacements = [
 	{
 		symbol: "**",
-		regex: regex`${unescaped}\*{2}([^\*](?:.|\n)*?)${unescaped}\*{2}`.rx("g"),
+		regex: regex`${unescaped}\*{2}([^\*](?:.|\n)*?)${unescaped}\*{2}${outOfBracket}`.rx("g"),
 		element: "span",
 		attr: e => { e.style.fontWeight = "bold"; }
 	},
 	{
 		symbol: "*",
-		regex: regex`${unescaped}\*((?:.|\n)+?)${unescaped}\*`.rx("g"),
+		regex: regex`${unescaped}\*((?:.|\n)+?)${unescaped}\*${outOfBracket}`.rx("g"),
 		element: "span",
 		attr: e => { e.style.fontStyle = "italic"; }
 	},
 	{
 		symbol: "__",
-		regex: regex`${unescaped}_{2}([^_](?:.|\n)*?)${unescaped}_{2}`.rx("g"),
+		regex: regex`${unescaped}_{2}([^_](?:.|\n)*?)${unescaped}_{2}${outOfBracket}`.rx("g"),
 		element: "span",
 		attr: e => { e.style.textDecoration = "underline"; }
 	},
 	{
 		symbol: "_",
-		regex: regex`${unescaped}_((?:.|\n)+?)${unescaped}_`.rx("g"),
+		regex: regex`${unescaped}_((?:.|\n)+?)${unescaped}_${outOfBracket}`.rx("g"),
 		element: "span",
 		attr: e => { e.style.fontStyle = "italic"; }
 	},
 	{
 		symbol: "~~",
-		regex: regex`${unescaped}~{2}([^~](?:.|\n)*?)${unescaped}~{2}`.rx("g"),
+		regex: regex`${unescaped}~{2}([^~](?:.|\n)*?)${unescaped}~{2}${outOfBracket}`.rx("g"),
 		element: "span",
 		attr: e => { e.style.textDecoration = "line-through"; }
 	},
 	{
 		symbol: "```",
-		regex: regex`${unescaped}${"`"}{3}\s*([^${"`"}](?:.|\n)*?)\s*${unescaped}${"`"}{3}`.rx("g"),
+		regex: regex`${unescaped}${"`"}{3}\s*([^${"`"}](?:.|\n)*?)\s*${unescaped}${"`"}{3}${outOfBracket}`.rx("g"),
 		element: "pre",
 		attr: e => { e.classList.add("OPAL-code", "OPAL-large-code"); }
 	},
 	{
 		symbol: "`",
-		regex: regex`${unescaped}${"`"}((?:.|\n)+?)${unescaped}${"`"}`.rx("g"),
+		regex: regex`${unescaped}${"`"}((?:.|\n)+?)${unescaped}${"`"}${outOfBracket}`.rx("g"),
 		element: "code",
 		attr: e => { e.classList.add("OPAL-code", "OPAL-small-code"); }
 	},

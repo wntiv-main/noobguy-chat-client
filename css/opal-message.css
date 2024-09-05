@@ -31,8 +31,12 @@
 
 :is(.message, #OPAL-message-textarea) img {
 	min-width: 100px;
-	max-width: 30vw;
+	max-width: 50vw;
 	display: block;
+}
+
+#OPAL-message-textarea img {
+	resize: both;
 }
 
 .OPAL-code {
@@ -56,3 +60,25 @@
 	border-radius: 8px;
 	border-left: 8px solid #202020;
 }
+
+/* <style>
+@keyframes mov {
+	from {
+		background-position: 0% 0%;
+	}
+
+	to {
+		background-position: 50% 0%;
+	}
+}
+
+span, button, p, pre, code, blockquote, div {
+	background: repeating-linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet, red 10vw);
+	background-clip: text;
+	color: transparent;
+	background-size: 200vw 100%;
+	background-position: 100% 0%;
+	background-repeat: repeat;
+	animation: mov 9s infinite linear;
+}
+</style> */

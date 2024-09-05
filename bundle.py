@@ -63,7 +63,7 @@ init_matches: list[re.Match[str]] = []
 load_matches: list[re.Match[str]] = []
 
 names = re.findall(
-    r"\blet\s*(\w+)|function\s*(\w*)\s*\(((?:\w+(?:\s*=[^,)]*?)?,\s*)*(?:\.{3}\s*)?\w+(?:\s*=[^,)]*?)?)\)|\(((?:\w+,\s*(?:\s*=[^,)]*?)?)*(?:\.{3})?\w+(?:\s*=[^,)]*?)?)\)\s*=>|(\w+)\s*=>", init_js + load_js)
+    r"\blet\s+(\w+)|\blet\s+\[((?:\w+,\s*)*(?:\.{3}\s*)?\w+)\]|function\*?\s*(\w*)\s*\(((?:\w+(?:\s*=[^,)]*?)?,\s*)*(?:\.{3}\s*)?\w+(?:\s*=[^,)]*?)?)\)|\(((?:\w+,\s*(?:\s*=[^,)]*?)?)*(?:\.{3})?\w+(?:\s*=[^,)]*?)?)\)\s*=>|(\w+)\s*=>", init_js + load_js)
 x = [
     name for match in names for group in match if group for name in group.split(",")]
 for name in set(name for match in names for group in match if group for name in group.split(",")):
@@ -109,7 +109,7 @@ for member in set(re.findall(r"\.(\w+)", init_js + load_js)):
     load_matches += load_ms
 
 js_globs = set(("fetch", "document", "Math", "URL", "window", "String", "Promise", "location", "localStorage", "Number", "FileReader", "FormData", "indexedDB", "OffscreenCanvas", "HTMLImageElement", "Image", "Date", "Blob", "Uint8Array",
-               "ArrayBuffer", "DOMParser", "RegExp", "navigator"))
+               "ArrayBuffer", "DOMParser", "RegExp", "navigator", "null", "undefined"))
 for name in set(re.findall(r"\b(\w+)\b" + NOT_IN_STR, init_js + load_js, re.M)):
     assert isinstance(name, str)
     if name not in js_globs:
@@ -162,7 +162,7 @@ ALPHA = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
 ALPHA_EXT = ALPHA + "0123456789"
 idx = 0
 reserved = set(("if", "else", "return", "let",
-               "var", "const", "for", "do", "while", "of", "in", "this"))
+               "var", "const", "for", "do", "while", "of", "in", "this", "function"))
 
 
 def get_name():
@@ -224,8 +224,8 @@ if len(str_binding_values) * 2 > 13:
     arg_binding_values += (f'..."{",".join(str_binding_values)}".split(",")',)
 else:
     arg_binding_values += map(lambda s: f'"{s}"', str_binding_values)
-init_js = re.sub(r"[\n\s]*([-=><+/*|&(){}[\]:;,^])[\n\s]*", r"\1", init_js)
-load_js = re.sub(r"[\n\s]*([-=><+/*|&(){}[\]:;,^])[\n\s]*", r"\1", load_js)
+init_js = re.sub(r"[\n\s]*([-=><+/|&(){}[\]:;,^]|(?<!function)\*)[\n\s]*", r"\1", init_js)
+load_js = re.sub(r"[\n\s]*([-=><+/|&(){}[\]:;,^]|(?<!function)\*)[\n\s]*", r"\1", load_js)
 init_js = re.sub(r";[\n\s]*}", "}", init_js)
 load_js = re.sub(r";[\n\s]*}", "}", load_js)
 output = root.joinpath("template.html").read_text("utf-8")
@@ -245,7 +245,7 @@ for cls in classes:
     alt_name = f"_{get_name()}"
     output = re.sub(cls + r"(?![\-_a-zA-Z0-9])", alt_name, output)
 
-output = re.sub(r"/\*.*?\*/|<!--.*?-->", "", output)
+output = re.sub(r"/\*(?:.|\n)*?\*/|<!--.*?-->", "", output)
 output = re.sub(r"[\n\s]+", " ", output)
 output = re.sub(r"\s*([><{}[\]:;,=])\s*",
                 lambda m: m.group(1), output)
